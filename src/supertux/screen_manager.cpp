@@ -427,14 +427,14 @@ ScreenManager::process_events()
         break;
 
       case SDL_KEYDOWN:
-        if (event.key.keysym.sym == SDLK_F10)
+        if (event.key.key == SDLK_F10)
         {
           g_config->show_fps = !g_config->show_fps;
         }
 #ifndef EMSCRIPTEN // Emscripten builds manage this through JS code
-        else if (event.key.keysym.sym == SDLK_F11 ||
-                 ((event.key.keysym.mod & KMOD_LALT || event.key.keysym.mod & KMOD_RALT) &&
-                 (event.key.keysym.sym == SDLK_KP_ENTER || event.key.keysym.sym == SDLK_RETURN)))
+        else if (event.key.key == SDLK_F11 ||
+                 ((event.key.mod & KMOD_LALT || event.key.mod & KMOD_RALT) &&
+                 (event.key.key == SDLK_KP_ENTER || event.key.key == SDLK_RETURN)))
         {
           g_config->use_fullscreen = !g_config->use_fullscreen;
           m_video_system.apply_config();
@@ -443,8 +443,8 @@ ScreenManager::process_events()
 #endif
 #ifdef STEAM_BUILD
         // Shift+Tab opens the overlay; pause the game
-        else if (event.key.keysym.sym == SDLK_TAB &&
-                 (event.key.keysym.mod & KMOD_LSHIFT || event.key.keysym.mod & KMOD_RSHIFT))
+        else if (event.key.key == SDLK_TAB &&
+                 (event.key.mod & KMOD_LSHIFT || event.key.mod & KMOD_RSHIFT))
         {
           if (session != nullptr && session->is_active() && !Level::current()->m_suppress_pause_menu)
           {
@@ -452,13 +452,13 @@ ScreenManager::process_events()
           }
         }
 #endif
-        else if (event.key.keysym.sym == SDLK_PRINTSCREEN ||
-                 event.key.keysym.sym == SDLK_F12)
+        else if (event.key.key == SDLK_PRINTSCREEN ||
+                 event.key.key == SDLK_F12)
         {
           m_video_system.do_take_screenshot();
         }
-        else if (event.key.keysym.sym == SDLK_F2 &&
-                 event.key.keysym.mod & KMOD_CTRL)
+        else if (event.key.key == SDLK_F2 &&
+                 event.key.mod & KMOD_CTRL)
         {
           g_config->developer_mode = !g_config->developer_mode;
           log_info << "developer mode: " << g_config->developer_mode << std::endl;

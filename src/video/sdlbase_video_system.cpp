@@ -30,14 +30,14 @@ SDLBaseVideoSystem::SDLBaseVideoSystem() :
   m_sdl_window(nullptr, &SDL_DestroyWindow),
   m_desktop_size()
 {
-  SDL_DisplayMode mode;
-  if (SDL_GetDesktopDisplayMode(0, &mode) != 0)
+  auto mode = SDL_GetDesktopDisplayMode(0);
+  if (mode == nullptr)
   {
     log_warning << "Couldn't get desktop display mode: " << SDL_GetError() << std::endl;
   }
   else
   {
-    m_desktop_size = Size(mode.w, mode.h);
+    m_desktop_size = Size(mode->w, mode->h);
   }
 }
 

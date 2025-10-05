@@ -89,6 +89,11 @@ jobs:
             lcov \
             doxygen
 
+          # Let's get out of this directory to disable vcpkg manifest mode.
+          # Manifest mode is not adequate here because most dependencies can
+          # be used via the system package manager.
+          pushd /
+          
           vcpkg install --triplet x64-linux sdl3 sdl3-image sdl3-ttf
 
       - name: Install 32-bit dependencies
@@ -114,8 +119,6 @@ jobs:
             libogg-dev:i386 \
             libvorbis-dev:i386 \
             libopenal-dev:i386 \
-            libsdl3-dev:i386 \
-            libsdl3-image-dev:i386 \
             libfreetype6-dev:i386 \
             libcurl4-openssl-dev:i386 \
             zlib1g-dev:i386 \

@@ -87,7 +87,8 @@ jobs:
             libphysfs-dev \
             zlib1g-dev \
             lcov \
-            doxygen
+            doxygen \
+            libltdl-dev
 
           # Let's get out of this directory to disable vcpkg manifest mode.
           # Manifest mode is not adequate here because most dependencies can
@@ -124,7 +125,8 @@ jobs:
             libcurl4-openssl-dev:i386 \
             zlib1g-dev:i386 \
             libfmt-dev:i386 \
-            libglm-dev
+            libglm-dev \
+            libltdl-dev
 
           # Let's get out of this directory to disable vcpkg manifest mode.
           # Manifest mode is not adequate here because most dependencies can

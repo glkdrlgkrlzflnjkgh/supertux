@@ -64,6 +64,7 @@ jobs:
         run: |
           cd C:/
           vcpkg integrate install
+          vcpkg update
           vcpkg install curl:$Env:ARCH-windows
           vcpkg install glew:$Env:ARCH-windows
           vcpkg install libogg:$Env:ARCH-windows

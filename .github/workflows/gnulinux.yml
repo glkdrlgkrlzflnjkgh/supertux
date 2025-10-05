@@ -94,6 +94,7 @@ jobs:
           # be used via the system package manager.
           pushd /
           
+          vcpkg update
           vcpkg install --triplet x64-linux sdl3 sdl3-image sdl3-ttf
 
       - name: Install 32-bit dependencies
@@ -131,6 +132,7 @@ jobs:
           pushd /
 
           # These libraries don't exist for 32-bit in Ubuntu repositories.
+          vcpkg update
           vcpkg install --triplet x86-linux physfs glew libraqm sdl3 sdl3-image sdl3-ttf
 
           popd

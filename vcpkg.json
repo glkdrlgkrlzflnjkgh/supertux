@@ -7,6 +7,8 @@
     "libraqm",
     "freetype",
     "physfs",
+    "sdl3",
+    "sdl3-image",
     "glm",
     "libpng",
     "zlib"
@@ -15,8 +17,6 @@
     "nonwasm": {
       "description": "Add dependencies that aren't needed for WebAssembly",
       "dependencies": [
-        "sdl3",
-        "sdl3-image",
         "curl",
         "openal-soft",
         "libogg",

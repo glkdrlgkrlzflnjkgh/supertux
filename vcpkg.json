@@ -9,6 +9,7 @@
     "physfs",
     "sdl3",
     "sdl3-image",
+    "sdl3-ttf",
     "glm",
     "libpng",
     "zlib"

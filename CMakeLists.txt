@@ -167,14 +167,14 @@ add_package(TARGET Freetype
   PKG Freetype PKG_USE Freetype::Freetype CONFIG REQUIRED PKG_CONFIG freetype2)
 add_package(TARGET RAQM
   PKG RAQM PKG_USE RAQM CONFIG PKG_CONFIG libraqm raqm)
+add_package(TARGET SDL3
+  PKG SDL3 PKG_USE SDL3::SDL3 CONFIG REQUIRED PKG_CONFIG sdl3 SDL3)
+add_package(TARGET SDL3_image
+  PKG SDL3_image PKG_USE SDL3_image::SDL3_image CONFIG REQUIRED PKG_CONFIG SDL3_image sdl3_image)
+add_package(TARGET SDL3_ttf
+  PKG SDL3_ttf PKG_USE SDL3_ttf::SDL3_ttf CONFIG REQUIRED PKG_CONFIG SDL3_ttf sdl3_ttf)
 
 if(NOT EMSCRIPTEN)
-  add_package(TARGET SDL3
-    PKG SDL3 PKG_USE SDL3::SDL3 CONFIG REQUIRED PKG_CONFIG sdl3 SDL3)
-  add_package(TARGET SDL3_image
-    PKG SDL3_image PKG_USE SDL3_image::SDL3_image CONFIG REQUIRED PKG_CONFIG SDL3_image sdl3_image)
-  add_package(TARGET SDL3_ttf
-    PKG SDL3_ttf PKG_USE SDL3_ttf::SDL3_ttf CONFIG REQUIRED PKG_CONFIG SDL3_ttf sdl3_ttf)
   add_package(TARGET libcurl
     PKG CURL PKG_USE CURL::libcurl PKG_CONFIG libcurl)
   add_package(TARGET OpenAL

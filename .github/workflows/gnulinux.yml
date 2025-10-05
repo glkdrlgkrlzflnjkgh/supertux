@@ -191,7 +191,7 @@ jobs:
                      -DCMAKE_TOOLCHAIN_FILE="$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" `
                      -DVCPKG_MANIFEST_MODE=OFF `
                      -DPhysFS_PREFER_FIND_PACKAGE=ON `
-                     -DVCPKG_TARGET_TRIPLET= "$(if ($Env:32BIT -eq "true") {"x86"} else {"x64"})" `
+                     -DVCPKG_TARGET_TRIPLET= "$(if ($Env:32BIT -eq "true") {"x86"} else {"x64"})-linux" `
                      -DBUILD_DOCUMENTATION="$(if ($Env:MAKE_DOCS -eq "true") {"ON"} else {"OFF"})" `
                      -DCMAKE_CXX_FLAGS="$(if ($Env:32BIT -eq "true") {"-m32"})" `
                      -DCMAKE_C_FLAGS="$(if ($Env:32BIT -eq "true") {"-m32"})" `

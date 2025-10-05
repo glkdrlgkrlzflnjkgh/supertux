@@ -188,12 +188,14 @@ jobs:
                      -DCMAKE_POLICY_VERSION_MINIMUM="3.5" `
                      -DSUPERTUX_PACKAGE_VERSION="$Env:GIT_TAG dev - $Env:GIT_HASH ($Env:GIT_BRANCH) (CI ARTIFACT)" `
                      -DSUPERTUX_VERSION_STRING="$Env:GIT_BRANCH-$Env:GIT_HASH" `
+                     -DCMAKE_TOOLCHAIN_FILE=$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" `
+                     -DVCPKG_MANIFEST_MODE=OFF `
+                     -DPhysFS_PREFER_FIND_PACKAGE=ON `
                      $(if ($Env:32BIT -eq "true") {
-                       "-DCMAKE_TOOLCHAIN_FILE=$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake "
                        "-DVCPKG_TARGET_TRIPLET=x86-linux "
-                       "-DVCPKG_MANIFEST_MODE=OFF "
-                       "-DPhysFS_PREFER_FIND_PACKAGE=ON"
-                     }) `
+                     } else {
+                       "-DVCPKG_TARGET_TRIPLET=x64-linux "
+                     })`
                      -DBUILD_DOCUMENTATION="$(if ($Env:MAKE_DOCS -eq "true") {"ON"} else {"OFF"})" `
                      -DCMAKE_CXX_FLAGS="$(if ($Env:32BIT -eq "true") {"-m32"})" `
                      -DCMAKE_C_FLAGS="$(if ($Env:32BIT -eq "true") {"-m32"})" `

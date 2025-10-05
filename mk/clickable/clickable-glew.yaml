@@ -42,4 +42,4 @@ build_args:
   - "-DWARNINGS=ON"
   - "-DWERROR=ON"
   - "-DCLICK_ARCH=${ARCH}"
-  - "-DCLICK_FRAMEWORK=ubuntu-sdk-20.04"
+  - "-DCLICK_FRAMEWORK=ubuntu-sdk-24.04"

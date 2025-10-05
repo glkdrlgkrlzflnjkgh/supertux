@@ -1,5 +1,5 @@
 clickable_minimum_required: 7
-framework: "ubuntu-sdk-20.04"
+framework: "ubuntu-sdk-24.04"
 builder: "cmake"
 build_dir: "build.clickable"
 image_setup:
@@ -41,4 +41,4 @@ build_args:
   - "-DWARNINGS=ON"
   - "-DWERROR=ON"
   - "-DCLICK_ARCH=${ARCH}"
-  - "-DCLICK_FRAMEWORK=ubuntu-sdk-20.04"
+  - "-DCLICK_FRAMEWORK=ubuntu-sdk-24.04"

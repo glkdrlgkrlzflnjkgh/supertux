@@ -2,6 +2,7 @@ clickable_minimum_required: 7
 framework: "ubuntu-sdk-24.04"
 builder: "cmake"
 build_dir: "build.clickable"
+docker_image: "clickable:amd64-ut24.04-1.x-arm64"
 image_setup:
   env:
     BUILD_ARCH: $ARCH

@@ -6,14 +6,15 @@ image_setup:
   env:
     BUILD_ARCH: $ARCH
   run:
+    - ls -la /usr/lib/${ARCH_TRIPLET}/
     # I don't know how to split this and honestly I don't care
     - wget -O fmtlib.zip https://github.com/fmtlib/fmt/releases/download/9.1.0/fmt-9.1.0.zip && unzip fmtlib.zip && cd fmt-9.1.0 && mkdir build && cd build && cmake .. -DFMT_TEST=OFF -DFMT_DOC=OFF -DCMAKE_BUILD_TYPE=Release && cmake --build . && cmake --install .
 dependencies_target:
   - "libogg-dev"
   - "libvorbis-dev"
   - "libopenal-dev"
-  - "libsdl3-dev"
-  - "libsdl3-image-dev"
+  - "libsdl3"
+  - "libsdl3-image"
   - "libphysfs-dev"
   - "libcurl4-openssl-dev"
   - "libfreetype6-dev"

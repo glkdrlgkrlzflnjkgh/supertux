@@ -61,7 +61,10 @@ jobs:
           # Patch dbus port file to work around dbus issue on 32-bit
           # See https://github.com/microsoft/vcpkg/issues/40031
           git config core.filemode false
-          git apply mk/vcpkg/dbus.patch --directory=$Env:VCPKG_INSTALLATION_ROOT
+          cp .ci_scripts/mk/vcpkg/dbus.patch $Env:VCPKG_INSTALLATION_ROOT
+          pushd $Env:VCPKG_INSTALLATION_ROOT
+          git apply dbus.patch
+          popd
 
       - name: Install 64-bit dependencies
         if: ${{ matrix.arch == 64 }}

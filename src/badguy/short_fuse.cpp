@@ -28,7 +28,7 @@
 ShortFuse::ShortFuse(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/short_fuse/short_fuse.sprite", "left", "right")
 {
-  walk_speed = 100;
+  walk_speed = 400;
   set_ledge_behavior(LedgeBehavior::SMART);
 
   SoundManager::current()->preload("sounds/firecracker.ogg");

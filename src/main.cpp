@@ -15,7 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <SDL.h>
-
+#include <iostream>
 #include <config.h>
 #include <memory>
 
@@ -25,6 +25,7 @@ static std::unique_ptr<Main> g_main;
 
 int main(int argc, char** argv)
 {
+  std::cout << "Supertux launching...." << std::endl;
   g_main = std::make_unique<Main>();
 
   int ret = g_main->run(argc, argv);

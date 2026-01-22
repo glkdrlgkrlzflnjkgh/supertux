@@ -167,8 +167,7 @@ Editor::Editor() :
   m_script_manager(),
   m_on_exit_cb(nullptr),
   m_save_temp_level(false),
-  m_last_test_pos(std::nullopt),
-  m_shadow(SpriteManager::current()->create("images/engine/editor/shadow.png"))
+  m_last_test_pos(std::nullopt)
 {
   auto toolbox_widget = std::make_unique<EditorToolboxWidget>(*this);
   auto layers_widget = std::make_unique<EditorLayersWidget>(*this);
@@ -310,16 +309,14 @@ Editor::draw(Compositor& compositor)
     line_color.alpha -= 0.2;
     context.color().draw_filled_rect(border_rect, line_color, LAYER_GUI + 1);
 
-    if (m_shadow)
-    {
-      Rectf shadow_rect = border_rect;
-      shadow_rect.set_left(border_rect.get_left() - 16 + LINE_THICKNESS);
-      shadow_rect.set_right(border_rect.get_right() - LINE_THICKNESS);
-      context.set_alpha(0.2);
-      m_shadow->draw_scaled(context.color(), shadow_rect, LAYER_GUI + 1);
-      context.set_alpha(1.0);
-    }
-
+    Rectf shadow_rect = border_rect;
+    shadow_rect.set_left(border_rect.get_left() - 16 + LINE_THICKNESS);
+    shadow_rect.set_right(border_rect.get_right() - LINE_THICKNESS);
+    context.color().draw_gradient(Color(0.0f, 0.0f, 0.0f, 0.0f),
+                                  Color(0.0f, 0.0f, 0.0f, 0.2f),
+                                  LAYER_GUI + 1,
+                                  GradientDirection::HORIZONTAL,
+                                  shadow_rect);
 
     Rectf layers_rect = Rectf{0, SCREEN_HEIGHT - 32.f - LINE_THICKNESS,
                               SCREEN_WIDTH - 128.f, SCREEN_HEIGHT - 32.f};
@@ -1357,6 +1354,10 @@ Editor::sort_layers()
 void
 Editor::select_tilegroup(int id)
 {
+  // dumb hack around dumb design...
+  if (m_toolbox_widget->get_tilebox().get_input_type() != InputType::TILE)
+    m_toolbar_widget->toggle_tile_object_mode();
+
   m_toolbox_widget->select_tilegroup(id);
 }
 
@@ -1387,6 +1388,10 @@ Editor::change_tileset()
 void
 Editor::select_objectgroup(int id)
 {
+  // dumb hack around dumb design...
+  if (m_toolbox_widget->get_tilebox().get_input_type() != InputType::OBJECT)
+    m_toolbar_widget->toggle_tile_object_mode();
+
   m_toolbox_widget->select_objectgroup(id);
 }
 

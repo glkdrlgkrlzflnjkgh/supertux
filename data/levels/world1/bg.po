@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-05 21:19+0000\n"
+"POT-Creation-Date: 2026-03-21 04:25+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Любомир Василев, 2021,2025-2026\n"
 "Language-Team: Bulgarian (http://app.transifex.com/arctic-games/supertux/language/bg/)\n"
@@ -90,7 +90,7 @@ msgstr "Замръзналите полета"
 msgid "Ice in the Hole"
 msgstr "Лед в дупката"
 
-#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:3
+#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:4
 msgid "Icy Island"
 msgstr "Леденият остров"
 
@@ -109,6 +109,11 @@ msgstr "Пикник с Пени"
 #: data/levels/world1/journey_begins.stl:3
 msgid "The Journey Begins"
 msgstr "Пътешествието започва"
+
+#: data/levels/world1/journey_begins.stl:166
+#: data/levels/world1/stone_cold.stl:269 data/levels/world1/worldmap.stwm:248
+msgid "You found a secret area!"
+msgstr "Ти откри тайно място!"
 
 #: data/levels/world1/living_inside_fridge.stl:3
 msgid "Living In A Fridge"
@@ -376,7 +381,7 @@ msgstr "Хлъзгава пързалка"
 msgid "The Somewhat Smaller Bath"
 msgstr "Някак по-малката баня"
 
-#: data/levels/world1/somewhat_smaller_bath.stl:420
+#: data/levels/world1/somewhat_smaller_bath.stl:422
 msgid ""
 "-Swimming\n"
 "!images/creatures/tux/big/swim-1.png\n"
@@ -387,14 +392,14 @@ msgstr "-Плуване\n!images/creatures/tux/big/swim-1.png\n#Когато с�
 msgid "Stone Cold"
 msgstr "Кучи студ"
 
-#: data/levels/world1/stone_cold.stl:195
+#: data/levels/world1/stone_cold.stl:200
 msgid ""
 "-Carrying Objects\n"
 "#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
 msgstr "-Носене на предмети\n#Тъкс може да взема предмети от земята като задържиш бутона за ДЕЙСТВИЕ. Пускането на бутона за ДЕЙСТВИЕ ще накара Тъкс да пусне предмета.\n#Ако пуснеш бутона за ДЕЙСТВИЕ, докато Тъкс се движи, той ще хвърли предмета!"
 
-#: data/levels/world1/stone_cold.stl:204
+#: data/levels/world1/stone_cold.stl:209
 msgid ""
 "-Up-Throwing\n"
 "#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
@@ -431,10 +436,6 @@ msgid ""
 "\n"
 "#Collect all of them to unlock fun, additional levels!"
 msgstr "-Кукла Тъкс\n!images/powerups/1up/1up.png\n#Куклите Тъкс са рядък предмет за събиране, които са необходими за отключване на Допълнителните острови!\n\n#Събери всички, за да отключиш забавните допълнителни нива!"
-
-#: data/levels/world1/worldmap.stwm:246
-msgid "You found a secret area!"
-msgstr "Ти откри тайно място!"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"

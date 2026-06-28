@@ -44,7 +44,7 @@
 #include <DbgHelp.h>
 #endif
 //#include <VersionHelpers.h>
-
+#include <errhandlingapi.h>
 #ifdef _MSC_VER
 #pragma comment(lib, "DbgHelp.lib")
 #endif
@@ -68,6 +68,44 @@ ErrorHandler::set_handlers()
 #ifdef WIN32
 static PCONTEXT pcontext = NULL;
 #endif
+
+#ifdef _GNU_SOURCE
+# include <cxxabi.h>
+#endif
+
+std::string
+dewrangle(const std::string& symbol)
+{
+#if defined(__GLIBCXX__) && !defined(WIN32)
+  // backtrace_symbols does not dewrangle c++ functions (for good reason). there
+  // are probably much more briliant ways to get the backtrace (and directly
+  // just their symbols) but i am too damn tired to look, so just substr the
+  // dewrangled symbol in, but still safety return the original string on any
+  // failure. don't like doing this but i'm sorry ;-/
+  std::stringstream res;
+  size_t leftof = symbol.find('(');
+  size_t offset = symbol.find('+');
+  // check if this doesn't make sense
+  if (leftof == std::string::npos ||
+      offset == std::string::npos ||
+      leftof > offset)
+    return symbol;
+
+  res << symbol.substr(0, leftof + 1);
+  std::string just_symbol = symbol.substr(leftof + 1, offset - leftof - 1);
+  char* dewrangled = abi::__cxa_demangle(just_symbol.c_str(), NULL, NULL, NULL);
+  if (dewrangled)
+  {
+    res << dewrangled << symbol.substr(offset);
+    std::free(dewrangled);
+    return res.str();
+  }
+
+  return symbol;
+#else
+  return symbol;
+#endif
+}
 
 std::string
 ErrorHandler::get_stacktrace()
@@ -94,16 +132,8 @@ ErrorHandler::get_stacktrace()
   // Initialize the symbol hander for the process
   if (first_time)
   {
-    // Get the file path of the executable
-    std::string path(MAX_PATH, 0);
-    GetModuleFileName(NULL, &path[0], MAX_PATH);
-
-    int size_needed = MultiByteToWideChar(CP_UTF8, 0, &path[0], (int) path.size(), NULL, 0);
-    std::wstring wpath(size_needed, 0);
-    MultiByteToWideChar(CP_UTF8, 0, &path[0], (int) path.size(), &wpath[0], size_needed);
-
     // Finally initialize the symbol handler.
-    BOOL bOk = SymInitializeW(hProcess, wpath.empty() ? NULL : wpath.c_str(), TRUE);
+    BOOL bOk = SymInitializeW(hProcess, NULL, TRUE);
     if (!bOk)
     {
       return "";
@@ -166,7 +196,8 @@ ErrorHandler::get_stacktrace()
       if (!SymFromAddr(hProcess, stackframe.AddrPC.Offset,
                         &sym_displacement, symbol))
       {
-        callstack << "<no symbol available>\n";
+        DWORD last_error_code = GetLastError();
+        callstack << "<no symbol available> (" << last_error_code << ")\n";
         continue;
       }
 
@@ -204,7 +235,7 @@ ErrorHandler::get_stacktrace()
   std::stringstream stacktrace;
 
   for (size_t i = 0; i < size; i++)
-    stacktrace << functions[i] << "\n";
+    stacktrace << dewrangle(std::string(functions[i])) << "\n";
 
   std::free(functions);
 
@@ -319,33 +350,43 @@ ErrorHandler::handle_error(int sig)
 void
 ErrorHandler::error_dialog_crash(const std::string& stacktrace)
 {
-  char msg[] = "SuperTux has encountered an unrecoverable error!";
+  std::string msg = "SuperTux has encountered an unrecoverable error!";
+
+  if (stacktrace.empty())
+  {
+    msg += "\nUnable to obtain details.";
+  }
 
   std::cerr << msg << "\n" << stacktrace << std::endl;
 
-  SDL_MessageBoxButtonData btns[] = {
+  SDL_MessageBoxButtonData btns[3] = {
     {
       0, // flags
       0, // buttonid
       "Report" // text
     },
     {
-      0, // flags
-      1, // buttonid
-      "Details" // text
-    },
-    {
       SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, // flags
-      2, // buttonid
+      stacktrace.empty() ? 1 : 2, // buttonid
       "OK" // text
-    }
+    },
+    {}
   };
+
+  if (!stacktrace.empty())
+  {
+    btns[2] = {
+        0, // flags
+        1, // buttonid
+        "Details" // text
+    };
+  }
 
   SDL_MessageBoxData data = {
     SDL_MESSAGEBOX_ERROR, // flags
     nullptr, // window
     "Error", // title
-    msg, // message
+    msg.data(), // message
     SDL_arraysize(btns), // numbuttons
     btns, // buttons
     nullptr // colorscheme
@@ -357,11 +398,14 @@ ErrorHandler::error_dialog_crash(const std::string& stacktrace)
   switch (resultbtn)
   {
     case 0:
-      report_error(stacktrace);
+      report_crash(stacktrace);
       break;
 
     case 1:
     {
+      if (stacktrace.empty())
+        break;
+
       SDL_MessageBoxButtonData detailsbtns[] = {
         {
           0, // flags
@@ -388,7 +432,7 @@ ErrorHandler::error_dialog_crash(const std::string& stacktrace)
       SDL_ShowMessageBox(&data, &resultbtn);
 
       if (resultbtn == 0)
-        report_error(stacktrace);
+        report_crash(stacktrace);
 
       break;
     }
@@ -456,9 +500,11 @@ ErrorHandler::error_dialog_exception(const std::string& exception)
 }
 
 void
-ErrorHandler::report_error(const std::string& details)
+ErrorHandler::report_crash(const std::string& details)
 {
   std::stringstream url;
+
+  constexpr char empty_details[] = "Unable to obtain crash details.";
 
   // cppcheck-suppress unknownMacro
   url << "https://github.com/supertux/supertux/issues/new"
@@ -466,7 +512,8 @@ ErrorHandler::report_error(const std::string& details)
          "&labels=type:crash,status:needs-confirmation"
          "&supertux-version=" << FileSystem::escape_url(PACKAGE_VERSION) <<
          "&system-info=" << FileSystem::escape_url(get_system_info()) <<
-         "&debug-stacktrace=" << FileSystem::escape_url(details);
+         "&debug-stacktrace=" << FileSystem::escape_url(details.empty() ? empty_details
+                                                                        : details);
 
   FileSystem::open_url(url.str());
 }

@@ -205,7 +205,7 @@ public:
   bool add_bonus(BonusType type, bool animate = false);
 
   /** like add_bonus, but can also downgrade the bonus items carried */
-  bool set_bonus(BonusType type, bool animate = false);
+  bool set_bonus(BonusType type, bool animate = false, bool pocket = true);
   inline BonusType get_bonus() const { return m_player_status.bonus[m_id]; }
 
   std::string bonus_to_string() const;
@@ -260,6 +260,8 @@ public:
    * @param float $yspeed Sensible values are negative - unless we want to jump into the ground of course.
    */
   void do_jump(float yspeed);
+
+  void clear_jump_state_for_bounce();
 
   /** Adds velocity to the player (be careful when using this) */
   void add_velocity(const Vector& velocity);
@@ -342,9 +344,8 @@ public:
    * @scripting
    * @description Switches ghost mode on/off. Lets Tux float around and through solid objects.
    * @param bool $enable
-   * @param bool $toggle
    */
-  void set_ghost_mode(bool enable, bool toggle = false);
+  void set_ghost_mode(bool enable);
   /**
    * @scripting
    * @description Returns whether ghost mode is currently enabled.

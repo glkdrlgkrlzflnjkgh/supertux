@@ -18,6 +18,7 @@
 
 #include <ctime>
 #include <config.h>
+#include <string>
 
 #include "editor/overlay_widget.hpp"
 #include "math/util.hpp"
@@ -65,6 +66,7 @@ Config::Config() :
   sound_volume(100),
   music_volume(50),
   flash_intensity(50),
+  screen_shake_mode(ScreenShakeMode::FULL),
   max_viewport(false),
   fancy_gfx(true),
   precise_scrolling(true),
@@ -79,6 +81,7 @@ Config::Config() :
   ignore_joystick_axis(false),
   mobile_controls(false),
   m_mobile_controls_scale(1.3f),
+  touch_controls_visible(true),
   addons(),
   developer_mode(false),
   christmas_mode(false),
@@ -143,6 +146,7 @@ Config::Config() :
   // and those with an older SDL; they won't have to check the setting each time.
   multiplayer_buzz_controllers(false),
 #endif
+  multiplayer_no_limit(false),
   touch_haptic_feedback(true),
   touch_just_directional(true),
   repository_url()
@@ -296,6 +300,7 @@ Config::load()
   config_mapping.get("multiplayer_auto_manage_players", multiplayer_auto_manage_players);
   config_mapping.get("multiplayer_multibind", multiplayer_multibind);
   config_mapping.get("multiplayer_buzz_controllers", multiplayer_buzz_controllers);
+  config_mapping.get("multiplayer_no_limit", multiplayer_no_limit);
   config_mapping.get("preferred_text_editor", preferred_text_editor);
 
   std::optional<ReaderMapping> config_video_mapping;
@@ -325,6 +330,19 @@ Config::load()
     config_video_mapping->get("aspect_width",  aspect_size.width);
     config_video_mapping->get("aspect_height", aspect_size.height);
     config_video_mapping->get("flash_intensity", flash_intensity);
+    {
+      std::string screen_shake_mode_string;
+      config_video_mapping->get("screen_shake_mode", screen_shake_mode_string, "full");
+      if (screen_shake_mode_string == "off") {
+        screen_shake_mode = ScreenShakeMode::OFF;
+      } else if (screen_shake_mode_string == "reduced") {
+        screen_shake_mode = ScreenShakeMode::REDUCED;
+      } else if (screen_shake_mode_string == "full") {
+        screen_shake_mode = ScreenShakeMode::FULL;
+      } else {
+        throw std::runtime_error("invalid screen shake mode, valid values are 'off', 'reduced', and 'full'");
+      }
+    }
 
     config_video_mapping->get("magnification", magnification);
     config_video_mapping->get("fancy_gfx", fancy_gfx);
@@ -371,6 +389,7 @@ Config::load()
     config_control_mapping->get("touch_haptic_feedback", touch_haptic_feedback);
     config_control_mapping->get("touch_just_directional", touch_just_directional);
     config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 2);
+    config_control_mapping->get("touch_controls_visible", touch_controls_visible);
     config_control_mapping->get("precise_scrolling", precise_scrolling);
     config_control_mapping->get("invert_wheel_x", invert_wheel_x);
     config_control_mapping->get("invert_wheel_y", invert_wheel_y);
@@ -460,6 +479,7 @@ Config::save()
   writer.write("multiplayer_auto_manage_players", multiplayer_auto_manage_players);
   writer.write("multiplayer_multibind", multiplayer_multibind);
   writer.write("multiplayer_buzz_controllers", multiplayer_buzz_controllers);
+  writer.write("multiplayer_no_limit", multiplayer_no_limit);
   writer.write("preferred_text_editor", preferred_text_editor);
 
   writer.start_list("interface_colors");
@@ -499,6 +519,21 @@ Config::save()
   writer.write("aspect_height", aspect_size.height);
 
   writer.write("flash_intensity", flash_intensity);
+  {
+    std::string screen_shake_mode_string;
+    switch (screen_shake_mode) {
+      case ScreenShakeMode::OFF:
+        screen_shake_mode_string = "off";
+        break;
+      case ScreenShakeMode::REDUCED:
+        screen_shake_mode_string = "reduced";
+        break;
+      case ScreenShakeMode::FULL:
+        screen_shake_mode_string = "full";
+        break;
+    }
+    writer.write("screen_shake_mode", screen_shake_mode_string);
+  }
 
 #ifdef __EMSCRIPTEN__
   // Forcibly set autofit to true
@@ -534,6 +569,7 @@ Config::save()
     writer.write("touch_haptic_feedback", touch_haptic_feedback);
     writer.write("touch_just_directional", touch_just_directional);
     writer.write("mobile_controls_scale", m_mobile_controls_scale);
+    writer.write("touch_controls_visible", touch_controls_visible);
     writer.write("precise_scrolling", precise_scrolling);
     writer.write("invert_wheel_x", invert_wheel_x);
     writer.write("invert_wheel_y", invert_wheel_y );

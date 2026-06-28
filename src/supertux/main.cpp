@@ -365,7 +365,7 @@ if (FileSystem::is_directory(olduserdir)) {
 }
 #endif
 
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
   m_userdir = "/home/web_user/.local/share/supertux2/";
 #endif
 
@@ -375,7 +375,7 @@ if (FileSystem::is_directory(olduserdir)) {
     log_info << "Created SuperTux userdir: " << m_userdir << std::endl;
   }
 
-#ifdef EMSCRIPTEN
+#ifdef __EMSCRIPTEN__
   EM_ASM({
     try {
       FS.mount(IDBFS, {}, m_userdir);
@@ -478,8 +478,14 @@ SDLSubsystem::SDLSubsystem()
    * When we migrate to SDL3, we can remove this snippet as they've now
    * defaulted to preferring Wayland (if i recall) -- Swagtoy
    */
+# ifdef FLATPAK
+  // We want to prefer wayland for flatpak regardless. I ran into issues with
+  // x11 being the default. Let's just force it for now.
+  SDL_SetHint(SDL_HINT_VIDEODRIVER, "wayland,x11");
+# else
   if (g_config->prefer_wayland)
     SDL_SetHint(SDL_HINT_VIDEODRIVER, "wayland,x11");
+# endif
 
 # ifdef HAVE_EPOXY
   SDL_SetHint(SDL_HINT_VIDEO_X11_FORCE_EGL, "1");
@@ -584,7 +590,7 @@ Main::launch_game(const CommandLineArguments& args)
 
   s_timelog.log("commandline");
 
-#ifndef EMSCRIPTEN
+#ifndef __EMSCRIPTEN__
   auto video = g_config->video;
   if (args.resave && *args.resave) {
     if (args.video) {
@@ -636,6 +642,15 @@ Main::launch_game(const CommandLineArguments& args)
   {
     for(auto start_level : args.filenames)
     {
+      // PhysFS doesn't like relative paths
+#ifdef WIN32
+      std::wstring wpath = std::filesystem::weakly_canonical({ start_level });
+      std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
+      start_level = converter.to_bytes(wpath);
+#else
+      start_level = std::filesystem::weakly_canonical({ start_level });
+#endif
+
       // we have a normal path specified at commandline, not a physfs path.
       // So we simply mount that path here...
       std::string dir = FileSystem::dirname(start_level);
@@ -657,7 +672,6 @@ Main::launch_game(const CommandLineArguments& args)
         {
           auto editor = std::make_unique<Editor>();
           editor->set_level(start_level);
-          editor->update(0, Controller());
           m_screen_manager->push_screen(std::move(editor));
           MenuManager::instance().clear_menu_stack();
           m_sound_manager->stop_music(0.5);
@@ -777,9 +791,9 @@ Main::run(int argc, char** argv)
     }
 
 #ifdef __ANDROID__
-    m_physfs_subsystem.reset(new PhysfsSubsystem(nullptr, args.datadir, SDL_AndroidGetExternalStoragePath()));
+    m_physfs_subsystem.reset(new PhysfsSubsystem(argv[0], args.datadir, SDL_AndroidGetExternalStoragePath()));
 #else
-    m_physfs_subsystem.reset(new PhysfsSubsystem(nullptr, args.datadir, args.userdir));
+    m_physfs_subsystem.reset(new PhysfsSubsystem(argv[0], args.datadir, args.userdir));
 #endif
     m_physfs_subsystem->print_search_path();
 

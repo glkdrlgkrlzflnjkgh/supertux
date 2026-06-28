@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-05 21:19+0000\n"
+"POT-Creation-Date: 2026-03-21 04:25+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>, 2004,2006-2007,2013-2016,2018-2020\n"
 "Language-Team: Norwegian Nynorsk (http://app.transifex.com/arctic-games/supertux/language/nn/)\n"
@@ -87,7 +87,7 @@ msgstr "Frostlagde stiar"
 msgid "Ice in the Hole"
 msgstr "Inferno i kvitt"
 
-#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:3
+#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:4
 msgid "Icy Island"
 msgstr "Isøya"
 
@@ -106,6 +106,11 @@ msgstr "På piknik med Penny"
 #: data/levels/world1/journey_begins.stl:3
 msgid "The Journey Begins"
 msgstr "Ei vandring tek til"
+
+#: data/levels/world1/journey_begins.stl:166
+#: data/levels/world1/stone_cold.stl:269 data/levels/world1/worldmap.stwm:248
+msgid "You found a secret area!"
+msgstr "Du fann ein hemmeleg plass!"
 
 #: data/levels/world1/living_inside_fridge.stl:3
 msgid "Living In A Fridge"
@@ -373,7 +378,7 @@ msgstr "På glattisen"
 msgid "The Somewhat Smaller Bath"
 msgstr "Oppi stampen"
 
-#: data/levels/world1/somewhat_smaller_bath.stl:420
+#: data/levels/world1/somewhat_smaller_bath.stl:422
 msgid ""
 "-Swimming\n"
 "!images/creatures/tux/big/swim-1.png\n"
@@ -384,14 +389,14 @@ msgstr "-Symjing\n!images/creatures/tux/big/swim-1.png\n#Når du er under vatn, 
 msgid "Stone Cold"
 msgstr "Steinkaldt"
 
-#: data/levels/world1/stone_cold.stl:195
+#: data/levels/world1/stone_cold.stl:200
 msgid ""
 "-Carrying Objects\n"
 "#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
 msgstr "-Gjenstandar\n#Du kan plukka opp gjenstandar med handlingstasten. Slepp tasten når du står i ro for å leggja frå deg gjenstanden.\n#Viss du slepper tasten når du er i rørsle, vil du kasta gjenstanden!"
 
-#: data/levels/world1/stone_cold.stl:204
+#: data/levels/world1/stone_cold.stl:209
 msgid ""
 "-Up-Throwing\n"
 "#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
@@ -428,10 +433,6 @@ msgid ""
 "\n"
 "#Collect all of them to unlock fun, additional levels!"
 msgstr "-Tux-dokke\n!images/powerups/1up/1up.png\n#Tux-dokker er sjeldne samlegjenstandar du treng for å låsa opp bonusøyene!\n\n#Få tak i alle for å låsa opp nye og artige brett!"
-
-#: data/levels/world1/worldmap.stwm:246
-msgid "You found a secret area!"
-msgstr "Du fann ein hemmeleg plass!"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"

@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2026-01-05 21:19+0000\n"
+"POT-Creation-Date: 2026-03-21 04:25+0000\n"
 "PO-Revision-Date: 2013-08-10 22:58+0000\n"
 "Last-Translator: Tobias Markus <tobbi@supertuxproject.org>, 2018-2019,2025-2026\n"
 "Language-Team: German (http://app.transifex.com/arctic-games/supertux/language/de/)\n"
@@ -100,7 +100,7 @@ msgstr "Eisige Felder"
 msgid "Ice in the Hole"
 msgstr "Eis frei!"
 
-#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:3
+#: data/levels/world1/info:2 data/levels/world1/worldmap.stwm:4
 msgid "Icy Island"
 msgstr "Eisinsel"
 
@@ -119,6 +119,11 @@ msgstr "Picknick mit Penny"
 #: data/levels/world1/journey_begins.stl:3
 msgid "The Journey Begins"
 msgstr "Eine Reise beginnt"
+
+#: data/levels/world1/journey_begins.stl:166
+#: data/levels/world1/stone_cold.stl:269 data/levels/world1/worldmap.stwm:248
+msgid "You found a secret area!"
+msgstr "Du hast ein Versteck gefunden!"
 
 #: data/levels/world1/living_inside_fridge.stl:3
 msgid "Living In A Fridge"
@@ -386,7 +391,7 @@ msgstr "Rutschige Talfahrt"
 msgid "The Somewhat Smaller Bath"
 msgstr "Mini-Bad"
 
-#: data/levels/world1/somewhat_smaller_bath.stl:420
+#: data/levels/world1/somewhat_smaller_bath.stl:422
 msgid ""
 "-Swimming\n"
 "!images/creatures/tux/big/swim-1.png\n"
@@ -397,14 +402,14 @@ msgstr "-Schwimmen\n!images/creatures/tux/big/swim-1.png\n#Wenn Tux unter Wasser
 msgid "Stone Cold"
 msgstr "Eiskalt"
 
-#: data/levels/world1/stone_cold.stl:195
+#: data/levels/world1/stone_cold.stl:200
 msgid ""
 "-Carrying Objects\n"
 "#Tux can pick up objects by holding the ACTION key. Release the ACTION key to drop the object.\n"
 "#If you let go of the ACTION key while Tux is moving, he will throw it!"
 msgstr "-Objekte tragen\n#Tux kann Objekte aufsammeln, indem die AKTION-Taste gedrückt gehalten wird. Lasse die AKTION-Taste los, um das Objekt fallen zu lassen.\n#Wenn die AKTION-Taste losgelassen wird, während sich Tux bewegt, wird er das Objekt werfen!"
 
-#: data/levels/world1/stone_cold.stl:204
+#: data/levels/world1/stone_cold.stl:209
 msgid ""
 "-Up-Throwing\n"
 "#Tux can throw most objects upwards by holding the UP key, whilst releasing the ACTION key.\n"
@@ -441,10 +446,6 @@ msgid ""
 "\n"
 "#Collect all of them to unlock fun, additional levels!"
 msgstr "-Tux-Puppen\n!images/powerups/1up/1up.png\n#Tux-Puppen sind seltene Sammlerobjekte, die benötigt werden, um zusätzliche Bonusinseln freizuschalten!\n\n#Sammle alle ein, um lustige Zusatzlevel freizuschalten!"
-
-#: data/levels/world1/worldmap.stwm:246
-msgid "You found a secret area!"
-msgstr "Du hast ein Versteck gefunden!"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"

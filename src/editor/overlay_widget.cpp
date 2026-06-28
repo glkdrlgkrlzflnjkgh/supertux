@@ -209,7 +209,8 @@ EditorOverlayWidget::input_autotile_erase(const Vector& pos)
 void
 EditorOverlayWidget::put_tiles(const Vector& target_tile, TileSelection* tiles)
 {
-  m_editor.get_selected_tilemap()->save_state();
+  if (m_editor.get_selected_tilemap())
+    m_editor.get_selected_tilemap()->save_state();
 
   // Don't put tile if the position (or tile) hasn't changed
   if (floor(m_last_target_pos.x) == floor(target_tile.x) &&
@@ -503,6 +504,8 @@ EditorOverlayWidget::replace()
   auto tiles_height = tiles->m_height;
 
   uint32_t replace_tile = tilemap->get_tile_id(m_hovered_tile);
+
+  if (tiles_width == 0 || tiles_height == 0) return;
 
   // Don't do anything if the old and new tiles are the same tile.
   if (tiles_width == 1 && tiles_height == 1 && replace_tile == tiles->pos(0, 0)) return;
